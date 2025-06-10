@@ -44,6 +44,8 @@ DJANGO_APPS = [
 ]
 
 PROJECT_APPS = [
+    'apps.blog',
+    'apps.category'
 
 ]
 
@@ -57,18 +59,13 @@ THIRD_PARTY_APPS = [
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
 
 CKEDITOR_CONFIGS = {
-    'awesome_ckeditor': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat', 'Source']
-        ],
-        'autoParagraph': False       
+    'default': {
+        'toolbar': 'full',
+        'height': 300,
+        'width': '100%',
     },
 }
-CKEDITOR_UPLOAD_PATH = "/media/"
+CKEDITOR_UPLOAD_PATH = "uploads/"
 
 MIDDLEWARE = [
     "corsheaders.middleware.CorsMiddleware",

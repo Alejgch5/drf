@@ -7,6 +7,9 @@ import Services from 'containers/pages/Services';
 import About from 'containers/pages/About';
 
 import { AnimatePresence } from 'framer-motion'
+import Category from 'containers/pages/Category';
+import Search from 'containers/pages/Search';
+import PostDetail from 'containers/pages/PostDetail';
 
 
 
@@ -20,6 +23,9 @@ function AnimatedRoutes() {
                 {/* pantallas de inicio */}
                 <Route path='/' element={<Home />} />
                 <Route path='/blog' element={<Blog />} />
+                <Route path='/blog/:slug' element={<PostDetail />} />
+                <Route path='/search/:term' element={<Search />} />
+                <Route path='/category/:slug' element={<Category />} />
                 <Route path='/casos' element={<Cases />} />
                 <Route path='/servicios' element={<Services />} />
                 <Route path='/contacto' element={<About />} />

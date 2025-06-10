@@ -8,19 +8,25 @@ import BlogList from "components/blog/BlogList";
 import { get_categories } from "../../redux/actions/categories/categories";
 import categories from "../../redux/reducers/categories";
 import { connect } from "react-redux";
-import { get_blog_list, get_blog_list_page } from "..//..//redux/actions/blog/blog";
-function Blog(props) {
-    const {get_categories, categories, get_blog_list_page, get_blog_list, posts, count , next, previous} = props
+import { get_blog_list_category,  get_blog_list_category_page } from "..//..//redux/actions/blog/blog";
+import { useParams } from "react-router-dom";
+
+function Category(props) {
+    const {get_categories, categories, get_blog_list_category_page, get_blog_list_category, posts, count , next, previous} = props
+
+    const params = useParams()
+    const slug = params.slug
+
     useEffect(() => {
         window.scrollTo(0, 0)
         get_categories()
-        get_blog_list()
-    }, [get_categories, get_blog_list])
+        get_blog_list_category(slug)
+    }, [get_categories, get_blog_list_category])
 
     return (
         <Layout>
             <Helmet>
-               <title>AlejGCH | Blog</title>
+               <title>AlejGCH | Category: {slug}</title>
                 <meta name="description" content="Agencia de software y marketing digital. Servicios de creacion de pagina web y desarrollo de aplicaciones." />
                 <meta name="keywords" content='agencia de software, agencia de marketing, creacion de pagina web' />
                 <meta name="robots" content='all' />
@@ -43,12 +49,12 @@ function Blog(props) {
                 <meta name="twitter:card" content="summary_large_image" />
             </Helmet>
             <Navbar />
-            <div className="pt-20">
+            <div className="pt-24">
                 <CategoriesHeader categories={categories&&categories}/>
                 <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
                     <div className="mx-auto max-w-6xl my-10">
-                        <BlogList posts={posts&&posts} get_blog_list_page={get_blog_list_page} count={count&&count}/>
+                        <BlogList posts={posts&&posts} get_blog_list_page={get_blog_list_category_page} count={count&&count}/>
                     </div>
                 </div>
             </div>
@@ -59,7 +65,7 @@ function Blog(props) {
 }
 const mapStateToProps = state =>({
    categories: state.categories.categories,
-   posts: state.blog.blog_list,
+   posts: state.blog.blog_list_category,
    count: state.blog.count,
    next: state.blog.next,
    previous: state.blog.previous,
@@ -67,5 +73,5 @@ const mapStateToProps = state =>({
 
 })
 export default connect(mapStateToProps,{
-  get_categories, get_blog_list, get_blog_list_page
-})(Blog)
+  get_categories, get_blog_list_category, get_blog_list_category_page
+})(Category)

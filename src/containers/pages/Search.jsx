@@ -4,18 +4,20 @@ import Layout from "hocs/layouts/Layout"
 import { useEffect } from "react"
 import { Helmet } from 'react-helmet-async';
 import CategoriesHeader from "components/blog/CategoriesHeader";
-import BlogList from "components/blog/BlogList";
-import { get_categories } from "../../redux/actions/categories/categories";
-import categories from "../../redux/reducers/categories";
+import BlogList from "components/blog/search/BlogList";
 import { connect } from "react-redux";
-import { get_blog_list, get_blog_list_page } from "..//..//redux/actions/blog/blog";
-function Blog(props) {
-    const {get_categories, categories, get_blog_list_page, get_blog_list, posts, count , next, previous} = props
+import { search_blog_page, search_blog } from "..//..//redux/actions/blog/blog";
+import { useParams } from "react-router-dom";
+function Search(props) {
+    const { posts, count , next, previous, search_blog, search_blog_page} = props
+
+    const params = useParams()
+    const term = params.term
+
     useEffect(() => {
         window.scrollTo(0, 0)
-        get_categories()
-        get_blog_list()
-    }, [get_categories, get_blog_list])
+        search_blog(term)
+    }, [term, search_blog, search_blog_page])
 
     return (
         <Layout>
@@ -43,12 +45,11 @@ function Blog(props) {
                 <meta name="twitter:card" content="summary_large_image" />
             </Helmet>
             <Navbar />
-            <div className="pt-20">
-                <CategoriesHeader categories={categories&&categories}/>
-                <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="pt-24">
+               <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* We've used 3xl here, but feel free to try other max-widths based on your needs */}
                     <div className="mx-auto max-w-6xl my-10">
-                        <BlogList posts={posts&&posts} get_blog_list_page={get_blog_list_page} count={count&&count}/>
+                        <BlogList posts={posts&&posts} get_blog_list_page={search_blog_page} term={term} count={count&&count} />
                     </div>
                 </div>
             </div>
@@ -58,8 +59,7 @@ function Blog(props) {
 
 }
 const mapStateToProps = state =>({
-   categories: state.categories.categories,
-   posts: state.blog.blog_list,
+   posts: state.blog.filtered_posts,
    count: state.blog.count,
    next: state.blog.next,
    previous: state.blog.previous,
@@ -67,5 +67,6 @@ const mapStateToProps = state =>({
 
 })
 export default connect(mapStateToProps,{
-  get_categories, get_blog_list, get_blog_list_page
-})(Blog)
+ search_blog,
+ search_blog_page
+})(Search)

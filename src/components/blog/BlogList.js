@@ -3,7 +3,6 @@ import SmallSetPagination from "components/pagination/SmallSetPaginations"
 import BlogCardHorizontal from "./BlogCardHorizontal"
 
 function BlogList({posts,get_blog_list_page,count}){
-
     return(
     <div className="overflow-hidden px-8 bg-white">
       <ul role="list" className="divide-y space-y-8 gap-8  divide-gray-200">
